@@ -3,7 +3,7 @@ export const site = {
   shortName: 'Ensight',
   tagline: 'Aerial storytelling for Dallas/Fort Worth',
   description:
-    'Part 107 licensed drone operator and media production studio in Dallas/Fort Worth. Aerial storytelling for brands, events, real estate, and land across North Central Texas.',
+    'Part 107 licensed drone operator and media production studio in Dallas/Fort Worth. Aerial and ground film, photography, and storytelling for brands, events, real estate, and land across North Central Texas, with custom sites when you want the work carried all the way to live.',
   url: 'https://www.ensightcreatives.com',
   region: 'Dallas/Fort Worth',
   regionBroad: 'North Central Texas',

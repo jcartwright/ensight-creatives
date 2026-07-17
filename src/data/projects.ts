@@ -33,7 +33,7 @@ export const projects: Project[] = [
     title: 'Rancho de la Roca: Freedom Fest',
     slug: 'rancho-freedom-fest',
     youtubeId: 'AhWsNQCJQtQ',
-    blurb: 'Fourth of July coverage at Freedom Fest: people, grounds, and the flow of the day.',
+    blurb: 'Fourth of July coverage at Freedom Fest: people, grounds, and a fireworks finale.',
     tags: ['Events', 'Festival'],
     featured: true,
   },

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import { deliveryBeats, deliveryDestinations } from '../data/delivery';
 import { services } from '../data/services';
 import { featuredProjects } from '../data/projects';
 ---
@@ -18,7 +19,7 @@ import { featuredProjects } from '../data/projects';
             Recent projects
           </h2>
           <p class="mt-3 max-w-xl text-ink-soft">
-            Brand films, events, historic sites, and land. Recent storytelling work across North Texas.
+            Brand films, events, historic sites, and land. Aerial and ground storytelling across North Texas.
           </p>
         </div>
         <a href="/portfolio/" class="text-sm font-semibold text-horizon transition hover:text-horizon-deep">
@@ -38,7 +39,8 @@ import { featuredProjects } from '../data/projects';
         What we shoot
       </h2>
       <p class="mt-4 max-w-2xl text-lg text-ink-soft">
-        Most jobs fall into one of these buckets. If yours doesn’t, still reach out.
+        Most jobs fall into one of these buckets. Aerial, ground footage, and photography as the project needs. If yours
+        doesn’t fit cleanly, still reach out.
       </p>
       <ul class="mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
         {
@@ -53,6 +55,44 @@ import { featuredProjects } from '../data/projects';
     </div>
   </section>
 
+  <section class="border-t border-line bg-horizon-deep text-cloud overflow-hidden">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <p class="text-sm font-medium tracking-[0.14em] text-flare uppercase">After the flight</p>
+      <h2 class="font-display mt-3 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl">
+        The story needs a place to land
+      </h2>
+      <p class="mt-5 max-w-2xl text-lg text-cloud/80">
+        Visual media is the main event. Bring us in for the shoot alone, or keep going until the work has a living home
+        online: lean custom sites, galleries that feel intentional, and pages tuned to the audience, not a generic
+        template.
+      </p>
+
+      <ol class="flight-path mt-12 grid gap-8 md:grid-cols-3 md:gap-10">
+        {
+          deliveryBeats.map((beat, index) => (
+            <li class="relative">
+              <p class="font-display text-sm font-medium tracking-[0.16em] text-flare/90 uppercase">
+                {String(index + 1).padStart(2, '0')} · {beat.title}
+              </p>
+              <p class="mt-3 text-cloud/75">{beat.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p
+        class="delivery-cycle mt-14 max-w-2xl border-t border-cloud/15 pt-8 text-lg text-cloud/90 md:text-xl"
+        data-delivery-cycle
+        data-destinations={JSON.stringify(deliveryDestinations)}
+      >
+        Built for{' '}
+        <span class="delivery-cycle-phrase text-flare" data-delivery-phrase>
+          {deliveryDestinations[0]}
+        </span>
+      </p>
+    </div>
+  </section>
+
   <section class="border-t border-line bg-cloud">
     <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
       <p class="text-sm font-medium tracking-[0.14em] text-skyline uppercase">About</p>
@@ -61,18 +101,53 @@ import { featuredProjects } from '../data/projects';
       </h2>
       <p class="mt-5 max-w-2xl text-lg text-ink-soft">
         Ensight Creatives is a Part 107 licensed drone operator and media production studio in Dallas/Fort Worth. We
-        partner with brands, venues, agents, developers, and landowners to craft aerial stories that feel cinematic on
-        screen and practical in market: campaign films, listing media, and assets built for real impact.
+        partner with brands, venues, agents, developers, and landowners to craft stories from the air and on the ground,
+        and can carry them from first scout through a finished page when that fits the job.
       </p>
     </div>
   </section>
+
+  <script>
+    function initDeliveryCycle() {
+      const root = document.querySelector('[data-delivery-cycle]');
+      const phrase = document.querySelector('[data-delivery-phrase]');
+      if (!(root instanceof HTMLElement) || !(phrase instanceof HTMLElement)) return;
+      if (root.dataset.bound === 'true') return;
+      root.dataset.bound = 'true';
+
+      let destinations: string[] = [];
+      try {
+        destinations = JSON.parse(root.dataset.destinations || '[]');
+      } catch {
+        return;
+      }
+      if (destinations.length < 2) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let index = 0;
+      window.setInterval(() => {
+        index = (index + 1) % destinations.length;
+        phrase.classList.add('is-exiting');
+        window.setTimeout(() => {
+          phrase.textContent = destinations[index] ?? '';
+          phrase.classList.remove('is-exiting');
+          phrase.classList.add('is-entering');
+          window.setTimeout(() => phrase.classList.remove('is-entering'), 450);
+        }, 280);
+      }, 4200);
+    }
+
+    initDeliveryCycle();
+    document.addEventListener('astro:page-load', initDeliveryCycle);
+  </script>
 
   <section class="border-t border-line bg-horizon text-cloud">
     <div class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-20 md:flex-row md:items-center md:justify-between md:px-8 md:py-24">
       <div>
         <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl">Planning a shoot?</h2>
         <p class="mt-3 max-w-xl text-cloud/80">
-          Send a short note about the location, timing, and what you need. We’ll reply by email.
+          Send a short note about the location, timing, and what you need: aerial or ground film, photography, or help
+          getting the work live. We’ll reply by email.
         </p>
       </div>
       <a

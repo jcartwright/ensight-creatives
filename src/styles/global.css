@@ -195,4 +195,69 @@
       animation: none;
     }
   }
+
+  .flight-path {
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .flight-path::before {
+      content: "";
+      position: absolute;
+      top: 0.7rem;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        rgb(212 160 90 / 0.55),
+        rgb(243 247 248 / 0.18) 50%,
+        rgb(212 160 90 / 0.35)
+      );
+      pointer-events: none;
+    }
+  }
+
+  .delivery-cycle-phrase {
+    display: inline;
+    transition:
+      opacity 280ms ease,
+      transform 280ms ease,
+      filter 280ms ease;
+  }
+
+  .delivery-cycle-phrase.is-exiting {
+    opacity: 0;
+    transform: translateY(0.4rem);
+    filter: blur(2px);
+  }
+
+  .delivery-cycle-phrase.is-entering {
+    animation: delivery-phrase-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes delivery-phrase-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.4rem);
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .delivery-cycle-phrase,
+    .delivery-cycle-phrase.is-exiting,
+    .delivery-cycle-phrase.is-entering {
+      transition: none;
+      animation: none;
+      filter: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
 }

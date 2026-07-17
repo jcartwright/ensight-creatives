@@ -7,16 +7,16 @@ export const services: Service[] = [
   {
     title: 'Brand and events',
     description:
-      'Promo films, venue features, and event coverage. Aerial storytelling that shows what a place feels like.',
+      'Promo films, venue features, and event coverage from the air and on the ground. Storytelling that shows what a place feels like.',
   },
   {
     title: 'Real estate and land',
     description:
-      'Homes, commercial sites, and acreage for listings and marketing. Clear views of layout, access, and surroundings.',
+      'Homes, commercial sites, and acreage for listings and marketing. Aerial context plus ground video and photography for layout, access, and detail.',
   },
   {
     title: 'Construction progress',
     description:
-      'Repeatable aerial documentation for active jobs. Useful for owner updates, reports, and keeping everyone aligned.',
+      'Repeatable documentation for active jobs: aerial overviews, ground footage, and stills. Useful for owner updates, reports, and keeping everyone aligned.',
   },
 ];
