@@ -1,0 +1,116 @@
+---
+import { site } from '../data/site';
+import { hero } from '../data/hero';
+
+const hasVideo = Boolean(hero.videoPath);
+const slides = [...hero.slides];
+const cycleStills = !hasVideo && slides.length > 1;
+---
+
+<section class="relative min-h-[100svh] overflow-hidden hero-atmosphere text-cloud">
+  {
+    hasVideo ? (
+      <video
+        class="hero-media"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster={hero.posterPath}
+        aria-hidden="true"
+      >
+        <source src={hero.videoPath} type="video/mp4" />
+      </video>
+    ) : (
+      <div
+        class="hero-slideshow"
+        data-hero-slideshow={cycleStills ? 'true' : 'false'}
+        data-hold={hero.slideHoldSeconds}
+        data-fade={hero.slideFadeSeconds}
+        aria-hidden="true"
+      >
+        {slides.map((src, index) => (
+          <img
+            class:list={['hero-media', 'hero-slide', index === 0 && 'is-active']}
+            src={src}
+            alt=""
+            width={hero.posterWidth}
+            height={hero.posterHeight}
+            fetchpriority={index === 0 ? 'high' : 'low'}
+            decoding={index === 0 ? 'async' : 'async'}
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
+      </div>
+    )
+  }
+  <div class="hero-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="hero-copy mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:px-8 md:pb-28">
+    <p
+      class="reveal font-display text-4xl font-bold tracking-[-0.02em] text-cloud uppercase md:text-6xl lg:text-7xl"
+      aria-label={site.shortName}
+    >
+      EN<span class="text-flare" aria-hidden="true">/</span>SIGHT
+    </p>
+    <p class="reveal reveal-delay-1 mt-2 text-sm font-medium tracking-[0.18em] text-cloud/75 uppercase md:text-base">
+      Creatives
+    </p>
+    <h1
+      class="reveal reveal-delay-2 font-display mt-8 max-w-2xl text-2xl font-semibold leading-snug tracking-tight text-balance text-cloud md:text-4xl"
+    >
+      Aerial storytelling for Dallas/Fort Worth
+    </h1>
+    <p class="reveal reveal-delay-3 mt-4 max-w-xl text-base text-cloud/85 md:text-lg">
+      Brand and event films, real estate and land marketing, and job-site progress shots. Part 107 certified, based in
+      North Central Texas.
+    </p>
+    <div class="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
+      <a
+        href="/contact/"
+        class="inline-flex bg-flare px-6 py-3 font-semibold text-ink transition hover:brightness-105"
+      >
+        Request info
+      </a>
+      <a
+        href="/portfolio/"
+        class="inline-flex bg-cloud/10 px-6 py-3 font-medium text-cloud ring-1 ring-cloud/35 transition hover:bg-cloud/20"
+      >
+        View work
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initHeroMedia() {
+    const video = document.querySelector('video.hero-media');
+    if (video instanceof HTMLVideoElement) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        video.pause();
+        video.removeAttribute('autoplay');
+      }
+      return;
+    }
+
+    const root = document.querySelector('[data-hero-slideshow="true"]');
+    if (!(root instanceof HTMLElement)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const slides = Array.from(root.querySelectorAll('.hero-slide'));
+    if (slides.length < 2) return;
+
+    const hold = Math.max(2, Number(root.dataset.hold || 6)) * 1000;
+    let index = slides.findIndex((el) => el.classList.contains('is-active'));
+    if (index < 0) index = 0;
+
+    window.setInterval(() => {
+      slides[index]?.classList.remove('is-active');
+      index = (index + 1) % slides.length;
+      slides[index]?.classList.add('is-active');
+    }, hold);
+  }
+
+  initHeroMedia();
+  document.addEventListener('astro:page-load', initHeroMedia);
+</script>

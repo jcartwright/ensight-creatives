@@ -19,6 +19,11 @@ pnpm-debug.log*
 # macOS
 .DS_Store
 
+# local stills review — keep README; allow committed shortlist jpgs if desired
+# Uncomment to ignore large source drops:
+# public/stills/*
+# !public/stills/README.txt
+
 # editor
 .vscode/*
 !.vscode/extensions.json

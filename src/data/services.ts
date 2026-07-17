@@ -5,18 +5,18 @@ export type Service = {
 
 export const services: Service[] = [
   {
+    title: 'Brand and events',
+    description:
+      'Promo films, venue features, and event coverage. Aerial storytelling that shows what a place feels like.',
+  },
+  {
+    title: 'Real estate and land',
+    description:
+      'Homes, commercial sites, and acreage for listings and marketing. Clear views of layout, access, and surroundings.',
+  },
+  {
     title: 'Construction progress',
     description:
-      'Scheduled aerial documentation that keeps stakeholders aligned—clear, consistent, and ready for reports or client updates.',
-  },
-  {
-    title: 'Commercial real estate',
-    description:
-      'Property and site media that helps listings and developments stand out with accurate, high-impact aerial perspectives.',
-  },
-  {
-    title: 'Brand & promotional media',
-    description:
-      'Cinematic aerial sequences and stills that elevate campaigns, websites, and social content for DFW brands.',
+      'Repeatable aerial documentation for active jobs. Useful for owner updates, reports, and keeping everyone aligned.',
   },
 ];

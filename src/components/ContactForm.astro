@@ -51,9 +51,9 @@ const configured = Boolean(formId);
           <option value="" disabled selected>
             Select one
           </option>
+          <option value="brand">Brand or events</option>
+          <option value="real_estate">Real estate or land</option>
           <option value="construction">Construction progress</option>
-          <option value="cre">Commercial real estate</option>
-          <option value="brand">Brand / promotional media</option>
           <option value="other">Other</option>
         </select>
       </label>
@@ -115,7 +115,7 @@ const configured = Boolean(formId);
 
             if (response.ok) {
               form.reset();
-              status.textContent = 'Thanks — your request was sent. We will be in touch soon.';
+              status.textContent = 'Thanks. Your request was sent. We will be in touch soon.';
             } else {
               status.textContent = 'Something went wrong. Please try again in a moment.';
             }

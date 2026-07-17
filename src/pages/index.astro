@@ -1,59 +1,44 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { site } from '../data/site';
 import { services } from '../data/services';
 import { featuredProjects } from '../data/projects';
 ---
 
 <BaseLayout headerVariant="overlay">
-  <!-- Hero: one composition — brand, headline, support, CTAs, full-bleed atmosphere -->
-  <section class="relative min-h-[100svh] overflow-hidden hero-atmosphere text-cloud">
-    <div class="hero-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
-    <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-cloud to-transparent"></div>
+  <Hero />
 
-    <div class="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:px-8 md:pb-28">
-      <p class="reveal font-display text-4xl font-extrabold tracking-[0.08em] text-cloud md:text-6xl lg:text-7xl">
-        {site.shortName.toUpperCase()}
-      </p>
-      <p class="reveal reveal-delay-1 mt-2 text-sm font-medium tracking-[0.35em] text-cloud/75 uppercase md:text-base">
-        Creatives
-      </p>
-      <h1
-        class="reveal reveal-delay-2 font-display mt-8 max-w-2xl text-2xl font-semibold leading-snug tracking-tight text-balance text-cloud md:text-4xl"
-      >
-        Aerial imaging for Dallas/Fort Worth
-      </h1>
-      <p class="reveal reveal-delay-3 mt-4 max-w-xl text-base text-cloud/85 md:text-lg">
-        Construction progress, commercial real estate, and brand media—captured with Part 107 precision across North
-        Central Texas.
-      </p>
-      <div class="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
-        <a
-          href="/contact/"
-          class="inline-flex bg-flare px-6 py-3 font-semibold text-ink transition hover:brightness-105"
-        >
-          Request info
+  <section class="border-t border-line bg-cloud">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <p class="text-sm font-medium tracking-[0.14em] text-skyline uppercase">Featured work</p>
+          <h2 class="font-display mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+            Recent projects
+          </h2>
+          <p class="mt-3 max-w-xl text-ink-soft">
+            Brand films, events, historic sites, and land. Recent storytelling work across North Texas.
+          </p>
+        </div>
+        <a href="/portfolio/" class="text-sm font-semibold text-horizon transition hover:text-horizon-deep">
+          Full portfolio →
         </a>
-        <a
-          href="/portfolio/"
-          class="inline-flex bg-cloud/10 px-6 py-3 font-medium text-cloud ring-1 ring-cloud/35 transition hover:bg-cloud/20"
-        >
-          View work
-        </a>
+      </div>
+      <div class="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
       </div>
     </div>
   </section>
 
-  <!-- Services -->
   <section class="atmosphere border-t border-line">
     <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-      <p class="text-sm font-medium tracking-[0.2em] text-skyline uppercase">Services</p>
+      <p class="text-sm font-medium tracking-[0.14em] text-skyline uppercase">Services</p>
       <h2 class="font-display mt-3 max-w-xl text-3xl font-bold tracking-tight text-ink md:text-4xl">
-        Aerial media that moves projects forward
+        What we shoot
       </h2>
       <p class="mt-4 max-w-2xl text-lg text-ink-soft">
-        Clear documentation and cinematic storytelling for teams who need reliable visuals in the DFW metro.
+        Most jobs fall into one of these buckets. If yours doesn’t, still reach out.
       </p>
       <ul class="mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
         {
@@ -68,48 +53,25 @@ import { featuredProjects } from '../data/projects';
     </div>
   </section>
 
-  <!-- Featured work -->
   <section class="border-t border-line bg-cloud">
     <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div>
-          <p class="text-sm font-medium tracking-[0.2em] text-skyline uppercase">Featured work</p>
-          <h2 class="font-display mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-            Recent aerial stories
-          </h2>
-        </div>
-        <a href="/portfolio/" class="text-sm font-semibold text-horizon transition hover:text-horizon-deep">
-          Full portfolio →
-        </a>
-      </div>
-      <div class="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project) => <ProjectCard project={project} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- About teaser -->
-  <section class="border-t border-line atmosphere">
-    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-      <p class="text-sm font-medium tracking-[0.2em] text-skyline uppercase">About</p>
+      <p class="text-sm font-medium tracking-[0.14em] text-skyline uppercase">About</p>
       <h2 class="font-display mt-3 max-w-2xl text-3xl font-bold tracking-tight text-ink md:text-4xl">
-        Local eyes in the sky
+        Based in Dallas/Fort Worth
       </h2>
       <p class="mt-5 max-w-2xl text-lg text-ink-soft">
-        Ensight Creatives is a Part 107 certified aerial imaging studio based in Dallas/Fort Worth. We help builders,
-        brokers, and brands see their sites and stories from the angle that matters—clear, intentional, and ready to
-        share.
+        Ensight Creatives is a Part 107 certified drone studio in Dallas/Fort Worth. We help brands, venues, agents, and
+        landowners tell a clearer story of a place with aerial video and photos they can actually use.
       </p>
     </div>
   </section>
 
-  <!-- Final CTA -->
   <section class="border-t border-line bg-horizon text-cloud">
     <div class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-20 md:flex-row md:items-center md:justify-between md:px-8 md:py-24">
       <div>
-        <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl">Ready to plan a shoot?</h2>
+        <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl">Planning a shoot?</h2>
         <p class="mt-3 max-w-xl text-cloud/80">
-          Tell us about your site, timeline, and deliverables. We’ll follow up by email.
+          Send a short note about the location, timing, and what you need. We’ll reply by email.
         </p>
       </div>
       <a

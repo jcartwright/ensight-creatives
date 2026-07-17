@@ -7,6 +7,9 @@ interface Props {
 
 const { project } = Astro.props;
 const hasVideo = Boolean(project.youtubeId);
+const thumb = hasVideo
+  ? `https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`
+  : '';
 ---
 
 <article class="group">
@@ -15,19 +18,34 @@ const hasVideo = Boolean(project.youtubeId);
   >
     {
       hasVideo ? (
-        <iframe
-          class="absolute inset-0 h-full w-full"
-          src={`https://www.youtube-nocookie.com/embed/${project.youtubeId}?rel=0`}
-          title={project.title}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        />
+        <div class="project-player absolute inset-0" data-youtube-id={project.youtubeId} data-title={project.title}>
+          <button
+            type="button"
+            class="absolute inset-0 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flare"
+            aria-label={`Play ${project.title}`}
+          >
+            <img
+              src={thumb}
+              alt=""
+              class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+              loading="lazy"
+              width="480"
+              height="360"
+            />
+            <span class="absolute inset-0 bg-ink/25 transition group-hover:bg-ink/15"></span>
+            <span
+              class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-cloud/95 text-horizon shadow-sm transition group-hover:scale-105"
+              aria-hidden="true"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5.5v13l11-6.5-11-6.5z"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
       ) : (
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 hero-atmosphere px-6 text-center">
-          <p class="font-display text-lg font-semibold tracking-wide text-cloud/95">
-            {project.title}
-          </p>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-horizon-deep px-6 text-center">
+          <p class="font-display text-lg font-semibold tracking-wide text-cloud/95">{project.title}</p>
           <p class="text-sm text-cloud/70">Video coming soon</p>
         </div>
       )
@@ -37,13 +55,38 @@ const hasVideo = Boolean(project.youtubeId);
     <div class="flex flex-wrap gap-2">
       {
         project.tags.map((tag) => (
-          <span class="text-[0.7rem] font-medium tracking-[0.14em] text-skyline uppercase">{tag}</span>
+          <span class="text-[0.7rem] font-medium tracking-[0.1em] text-skyline uppercase">{tag}</span>
         ))
       }
     </div>
-    <h3 class="font-display mt-2 text-xl font-semibold tracking-tight text-ink">
-      {project.title}
-    </h3>
+    <h3 class="font-display mt-2 text-xl font-semibold tracking-tight text-ink">{project.title}</h3>
     <p class="mt-2 max-w-prose text-ink-soft">{project.blurb}</p>
   </div>
 </article>
+
+<script>
+  function mountPlayers() {
+    document.querySelectorAll('.project-player').forEach((root) => {
+      if (!(root instanceof HTMLElement) || root.dataset.bound === 'true') return;
+      root.dataset.bound = 'true';
+      const button = root.querySelector('button');
+      const id = root.dataset.youtubeId;
+      const title = root.dataset.title || 'Video';
+      if (!button || !id) return;
+
+      button.addEventListener('click', () => {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'absolute inset-0 h-full w-full';
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1`;
+        iframe.title = title;
+        iframe.allow =
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+        root.replaceChildren(iframe);
+      });
+    });
+  }
+
+  mountPlayers();
+  document.addEventListener('astro:page-load', mountPlayers);
+</script>

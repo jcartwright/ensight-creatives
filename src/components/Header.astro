@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import LogoMark from './LogoMark.astro';
 
 interface Props {
   variant?: 'overlay' | 'solid';
@@ -23,36 +24,27 @@ const overlay = variant === 'overlay';
   <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-8">
     <a
       href="/"
+      aria-label={site.name}
       class:list={[
         'group flex items-center gap-3 no-underline',
         overlay ? 'text-cloud' : 'text-ink',
       ]}
     >
-      <span
-        class:list={[
-          'flex h-9 w-9 items-center justify-center rounded-lg transition',
-          overlay ? 'bg-cloud/15 ring-1 ring-cloud/30' : 'bg-horizon text-cloud group-hover:bg-horizon-deep',
-        ]}
-        aria-hidden="true"
-      >
-        <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
-          <path d="M14 40c8-14 16-20 28-22" stroke="#d4a05a" stroke-width="4" stroke-linecap="round"></path>
-          <circle cx="44" cy="17" r="4.5" fill="#e6eef1"></circle>
-          <path d="M16 46h32" stroke="#5a8f9c" stroke-width="3" stroke-linecap="round" opacity="0.9"></path>
-        </svg>
-      </span>
+      <LogoMark
+        class={`h-9 w-9 shrink-0 transition ${overlay ? 'text-horizon/80 group-hover:text-horizon' : 'text-horizon group-hover:text-horizon-deep'}`}
+      />
       <span class="leading-tight">
         <span
           class:list={[
-            'font-display block text-sm font-bold tracking-[0.14em] md:text-[0.95rem]',
+            'font-display block text-sm font-semibold tracking-tight uppercase md:text-[0.95rem]',
             overlay ? 'text-cloud' : 'text-ink',
           ]}
         >
-          {site.shortName.toUpperCase()}
+          EN<span class:list={[overlay ? 'text-flare' : 'text-horizon']} aria-hidden="true">/</span>SIGHT
         </span>
         <span
           class:list={[
-            'block text-[0.65rem] font-medium tracking-[0.28em] uppercase',
+            'block text-[0.65rem] font-medium tracking-[0.16em] uppercase',
             overlay ? 'text-cloud/70' : 'text-ink-soft/70',
           ]}
         >

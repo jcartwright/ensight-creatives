@@ -77,5 +77,6 @@ Custom domain: `CNAME` file contains `ensightcreatives.com`.
 ## Brand
 
 - Palette: horizon teal, skyline blue-green, sun flare gold, mist/cloud neutrals (see `src/styles/global.css`)
-- Type: Syne (display) + Figtree (body)
-- Mark: path + horizon mark in the header / `public/favicon.svg`
+- Type: Space Grotesk (display) + Source Sans 3 (body)
+- Mark: viewfinder/sight icon + EN/SIGHT wordmark (`src/components/LogoMark.astro`, `public/favicon.svg`)
+- Hero: images in `public/stills/` crossfade in filename order (`01-`, `02-`, …). Set `videoPath` in `src/data/hero.ts` when a silent MP4 loop is ready.

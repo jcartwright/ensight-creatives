@@ -1,15 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1f4a42"/>
-      <stop offset="0.45" stop-color="#2a5f55"/>
-      <stop offset="0.75" stop-color="#5a8f9c"/>
-      <stop offset="1" stop-color="#dce8ec"/>
+    <linearGradient id="sky" x1="0" y1="0" x2="900" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16362f"/>
+      <stop offset="0.55" stop-color="#1f4a42"/>
+      <stop offset="1" stop-color="#2a5f55"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#sky)"/>
-  <path d="M180 390c120-210 260-300 460-330" stroke="#d4a05a" stroke-width="14" stroke-linecap="round"/>
-  <circle cx="660" cy="55" r="22" fill="#e6eef1"/>
-  <text x="180" y="470" fill="#f3f7f8" font-family="Syne, ui-sans-serif, system-ui, sans-serif" font-size="96" font-weight="800" letter-spacing="8">ENSIGHT</text>
-  <text x="180" y="530" fill="#f3f7f8" font-family="Figtree, ui-sans-serif, system-ui, sans-serif" font-size="36" font-weight="500" letter-spacing="14" opacity="0.8">CREATIVES · DALLAS / FORT WORTH</text>
+  <rect x="72" y="72" width="96" height="96" rx="20" fill="#1f4a42" stroke="#f3f7f8" stroke-opacity="0.2"/>
+  <path
+    d="M94 94h18M94 94v18M146 94h-18M146 94v18M94 146h18M94 146v-18M146 146h-18M146 146v-18"
+    stroke="#f3f7f8"
+    stroke-width="5"
+    stroke-linecap="square"
+    opacity="0.9"/>
+  <path d="M102 138L138 102" stroke="#d4a05a" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="120" cy="120" r="5" fill="#f3f7f8"/>
+  <text x="72" y="320" fill="#f3f7f8" font-family="Space Grotesk, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="700" letter-spacing="-2">EN</text>
+  <text x="232" y="320" fill="#d4a05a" font-family="Space Grotesk, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="700">/</text>
+  <text x="286" y="320" fill="#f3f7f8" font-family="Space Grotesk, ui-sans-serif, system-ui, sans-serif" font-size="92" font-weight="700" letter-spacing="-2">SIGHT</text>
+  <text x="72" y="390" fill="#f3f7f8" font-family="Source Sans 3, ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="500" letter-spacing="8" opacity="0.75">CREATIVES</text>
+  <text x="72" y="520" fill="#f3f7f8" font-family="Source Sans 3, ui-sans-serif, system-ui, sans-serif" font-size="30" font-weight="400" opacity="0.7">Aerial storytelling · Dallas / Fort Worth</text>
 </svg>
