@@ -9,9 +9,23 @@ const year = new Date().getFullYear();
     class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 text-sm text-ink-soft md:flex-row md:items-center md:justify-between md:px-8"
   >
     <p>
-      © {year}
-      {site.name}
-      {site.part107 && <span> · Part 107 certified</span>}
+      © {year}{' '}{site.name}
+      {
+        site.part107 && (
+          <span>
+            {' '}
+            ·{' '}
+            <a
+              href="https://www.faa.gov/uas/commercial_operators"
+              class="underline decoration-line underline-offset-2 transition hover:text-horizon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              FAA Part 107 licensed
+            </a>
+          </span>
+        )
+      }
     </p>
     <p>{site.regionLabel}</p>
   </div>

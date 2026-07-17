@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import { contactExamples, contactTips } from '../../data/contactExamples';
 import { site } from '../../data/site';
 ---
 
@@ -16,14 +17,48 @@ import { site } from '../../data/site';
           Request info
         </h1>
         <p class="mt-4 text-lg text-ink-soft">
-          Working in Dallas/Fort Worth or elsewhere in North Central Texas? Send a few details and we’ll get back to you
-          by email.
+          Planning a shoot in Dallas/Fort Worth or North Central Texas? Tell us the location, timing, and what you need —
+          brand and event films, real estate and land, or construction progress. We’ll reply by email, or by phone or
+          text if you leave a number.
         </p>
         <ul class="mt-8 space-y-3 text-sm text-ink-soft">
-          <li>Part 107 certified</li>
+          <li>
+            <a
+              href="https://www.faa.gov/uas/commercial_operators"
+              class="underline decoration-line underline-offset-2 transition hover:text-horizon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              FAA Part 107 licensed
+            </a>
+          </li>
           <li>Brand and events, real estate and land, construction</li>
           <li>{site.regionLabel}</li>
         </ul>
+
+        <div class="mt-10 border-t border-line pt-8">
+          <h2 class="font-display text-lg font-semibold text-ink">What to include</h2>
+          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-ink-soft">
+            {contactTips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </div>
+
+        <div class="mt-10 border-t border-line pt-8">
+          <h2 class="font-display text-lg font-semibold text-ink">Example requests</h2>
+          <p class="mt-2 text-sm text-ink-soft">
+            Use these as a starting point. A few concrete details go a long way.
+          </p>
+          <div class="mt-6 space-y-6">
+            {
+              contactExamples.map((example) => (
+                <div>
+                  <p class="text-sm font-medium text-ink">{example.label}</p>
+                  <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">{example.message}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
       </div>
 
       <div>

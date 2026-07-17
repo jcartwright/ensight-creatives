@@ -58,7 +58,7 @@ export const projects: Project[] = [
     slug: 'eaglepointe-church',
     youtubeId: 'WFvWkxldfN4',
     blurb: 'Commercial aerial footage of the Eaglepointe Church campus in Denton, Texas.',
-    tags: ['Commercial', 'Denton TX'],
+    tags: ['Commercial Real Estate Denton TX'],
     featured: false,
   },
 ];

@@ -101,6 +101,54 @@
     z-index: 3;
   }
 
+  .hero-controls {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    z-index: 4;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 0.75rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .hero-nav {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    color: #f3f7f8;
+    background: rgb(18 26 24 / 0.35);
+    box-shadow: inset 0 0 0 1px rgb(243 247 248 / 0.28);
+    transition:
+      background 160ms ease,
+      transform 160ms ease;
+  }
+
+  .hero-nav:hover {
+    background: rgb(18 26 24 / 0.55);
+  }
+
+  .hero-nav:focus-visible {
+    outline: 2px solid #d4a05a;
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-controls {
+      padding-inline: 1.25rem;
+    }
+
+    .hero-nav {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-slide {
       transition: none;
