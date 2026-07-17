@@ -1,0 +1,18 @@
+---
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 text-sm text-ink-soft md:flex-row md:items-center md:justify-between md:px-8"
+  >
+    <p>
+      © {year}
+      {site.name}
+      {site.part107 && <span> · Part 107 certified</span>}
+    </p>
+    <p>{site.regionLabel}</p>
+  </div>
+</footer>

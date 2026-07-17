@@ -1,0 +1,98 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  variant?: 'overlay' | 'solid';
+}
+
+const { variant = 'solid' } = Astro.props;
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/portfolio/', label: 'Portfolio' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+function isActive(href: string) {
+  return pathname === href || pathname === href.replace(/\/$/, '');
+}
+
+const overlay = variant === 'overlay';
+---
+
+<header class:list={[overlay ? 'absolute inset-x-0 top-0 z-40' : 'relative z-40 border-b border-line bg-cloud/90 backdrop-blur-sm']}>
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-8">
+    <a
+      href="/"
+      class:list={[
+        'group flex items-center gap-3 no-underline',
+        overlay ? 'text-cloud' : 'text-ink',
+      ]}
+    >
+      <span
+        class:list={[
+          'flex h-9 w-9 items-center justify-center rounded-lg transition',
+          overlay ? 'bg-cloud/15 ring-1 ring-cloud/30' : 'bg-horizon text-cloud group-hover:bg-horizon-deep',
+        ]}
+        aria-hidden="true"
+      >
+        <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+          <path d="M14 40c8-14 16-20 28-22" stroke="#d4a05a" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="44" cy="17" r="4.5" fill="#e6eef1"></circle>
+          <path d="M16 46h32" stroke="#5a8f9c" stroke-width="3" stroke-linecap="round" opacity="0.9"></path>
+        </svg>
+      </span>
+      <span class="leading-tight">
+        <span
+          class:list={[
+            'font-display block text-sm font-bold tracking-[0.14em] md:text-[0.95rem]',
+            overlay ? 'text-cloud' : 'text-ink',
+          ]}
+        >
+          {site.shortName.toUpperCase()}
+        </span>
+        <span
+          class:list={[
+            'block text-[0.65rem] font-medium tracking-[0.28em] uppercase',
+            overlay ? 'text-cloud/70' : 'text-ink-soft/70',
+          ]}
+        >
+          Creatives
+        </span>
+      </span>
+    </a>
+
+    <nav class="flex items-center gap-0.5 text-sm sm:gap-1 md:gap-2" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'rounded-md px-2 py-2 transition-colors sm:px-3',
+              link.href === '/contact/' && 'hidden sm:inline-flex',
+              overlay
+                ? isActive(link.href)
+                  ? 'font-semibold text-cloud'
+                  : 'text-cloud/80 hover:text-cloud'
+                : isActive(link.href)
+                  ? 'font-semibold text-horizon'
+                  : 'text-ink-soft hover:text-horizon',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/contact/"
+        class:list={[
+          'ml-1 rounded-md px-3 py-2 font-medium transition sm:px-3.5 md:ml-2',
+          overlay
+            ? 'bg-cloud/15 text-cloud ring-1 ring-cloud/35 hover:bg-cloud/25'
+            : 'bg-horizon text-cloud hover:bg-horizon-deep',
+        ]}
+      >
+        Request info
+      </a>
+    </nav>
+  </div>
+</header>

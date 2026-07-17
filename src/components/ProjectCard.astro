@@ -1,0 +1,49 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const hasVideo = Boolean(project.youtubeId);
+---
+
+<article class="group">
+  <div
+    class="relative aspect-video overflow-hidden bg-horizon-deep/90 ring-1 ring-line transition duration-500 group-hover:ring-skyline/40"
+  >
+    {
+      hasVideo ? (
+        <iframe
+          class="absolute inset-0 h-full w-full"
+          src={`https://www.youtube-nocookie.com/embed/${project.youtubeId}?rel=0`}
+          title={project.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
+      ) : (
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 hero-atmosphere px-6 text-center">
+          <p class="font-display text-lg font-semibold tracking-wide text-cloud/95">
+            {project.title}
+          </p>
+          <p class="text-sm text-cloud/70">Video coming soon</p>
+        </div>
+      )
+    }
+  </div>
+  <div class="mt-4">
+    <div class="flex flex-wrap gap-2">
+      {
+        project.tags.map((tag) => (
+          <span class="text-[0.7rem] font-medium tracking-[0.14em] text-skyline uppercase">{tag}</span>
+        ))
+      }
+    </div>
+    <h3 class="font-display mt-2 text-xl font-semibold tracking-tight text-ink">
+      {project.title}
+    </h3>
+    <p class="mt-2 max-w-prose text-ink-soft">{project.blurb}</p>
+  </div>
+</article>

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #121a18;
+  --color-ink-soft: #2a3632;
+  --color-mist: #e6eef1;
+  --color-cloud: #f3f7f8;
+  --color-horizon: #1f4a42;
+  --color-horizon-deep: #16362f;
+  --color-skyline: #5a8f9c;
+  --color-flare: #d4a05a;
+  --color-line: rgb(18 26 24 / 0.12);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-cloud);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-skyline) 35%, white);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .atmosphere {
+    background:
+      radial-gradient(120% 80% at 70% 0%, rgb(90 143 156 / 0.28), transparent 55%),
+      radial-gradient(90% 60% at 10% 20%, rgb(31 74 66 / 0.14), transparent 50%),
+      linear-gradient(165deg, #dce8ec 0%, #f3f7f8 42%, #e8efe8 100%);
+  }
+
+  .hero-atmosphere {
+    background:
+      radial-gradient(ellipse 100% 80% at 60% 40%, rgb(90 143 156 / 0.35), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 20% 70%, rgb(212 160 90 / 0.18), transparent 55%),
+      linear-gradient(180deg, #1f4a42 0%, #2a5f55 35%, #5a8f9c 70%, #dce8ec 100%);
+  }
+
+  .hero-grain {
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .reveal {
+    animation: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .reveal-delay-1 {
+    animation-delay: 0.12s;
+  }
+
+  .reveal-delay-2 {
+    animation-delay: 0.24s;
+  }
+
+  .reveal-delay-3 {
+    animation-delay: 0.36s;
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-delay-1,
+    .reveal-delay-2,
+    .reveal-delay-3 {
+      animation: none;
+    }
+  }
+}

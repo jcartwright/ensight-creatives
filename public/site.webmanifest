@@ -1,0 +1,19 @@
+{
+  "name": "Ensight Creatives",
+  "short_name": "Ensight",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ],
+  "theme_color": "#1f4a42",
+  "background_color": "#f3f7f8",
+  "display": "standalone"
+}
