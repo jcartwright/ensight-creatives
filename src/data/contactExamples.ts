@@ -7,7 +7,8 @@ export const contactTips = [
   'Location or site area (or goals, for a custom website)',
   'What you need (aerial or ground video, photography, approximate length, or a content site)',
   'Timing or go-live date',
-  'Access notes or constraints, if you know them',
+  'Location access notes or constraints, if you know them',
+  'Phone number if you prefer a call or text back',
 ] as const;
 
 export const contactExamples: ContactExample[] = [
@@ -29,6 +30,11 @@ export const contactExamples: ContactExample[] = [
   {
     label: 'Custom website',
     message:
-      'We have strong aerial and ground footage for a North Texas ranch venue and want a simple custom site to host the films, photo sets, and booking inquiry. Prefer something clean that we can update as events and seasons change.',
+      'We have strong aerial and ground footage for a North Texas ranch venue and want a streamlined branded site to host the films, photo sets, and booking inquiry. Prefer something clean that we can update as events and seasons change.',
+  },
+  {
+    label: 'Photography',
+    message:
+      'Need a stills package for a commercial listing in Frisco: exterior aerials plus ground detail shots of entries, parking, and signage. Listing photos due in two weeks; weekday morning preferred.',
   },
 ];

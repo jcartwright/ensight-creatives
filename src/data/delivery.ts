@@ -9,14 +9,14 @@ export const deliveryDestinations = [
 export const deliveryBeats = [
   {
     title: 'Capture',
-    description: 'Aerial and ground stills and film with a clear job to do.',
+    description: 'Aerial and ground video and stills with a clear job to do.',
   },
   {
     title: 'Shape',
-    description: 'Edit, sequence, and pace so the story holds.',
+    description: 'Edit and pace the story, including cutdowns at 15s, 30s, 60s, and longer.',
   },
   {
     title: 'Publish',
-    description: 'A custom site when you want the work live without a handoff.',
+    description: 'A branded site when you want the work live without a handoff.',
   },
 ] as const;

@@ -5,28 +5,36 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-line">
-  <div
-    class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 text-sm text-ink-soft md:flex-row md:items-center md:justify-between md:px-8"
-  >
-    <p>
-      © {year}{' '}{site.name}
-      {
-        site.part107 && (
-          <span>
-            {' '}
-            ·{' '}
-            <a
-              href="https://www.faa.gov/uas/commercial_operators"
-              class="underline decoration-line underline-offset-2 transition hover:text-horizon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              FAA Part 107 licensed
-            </a>
-          </span>
-        )
-      }
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 text-sm text-ink-soft md:px-8">
+    <p class="max-w-2xl">
+      {site.name}: aerial and ground video, photography, and branded sites for Dallas/Fort Worth and North Central Texas.
+      Sharing us with someone? Point them to{' '}
+      <a href="/contact/" class="underline decoration-line underline-offset-2 transition hover:text-horizon">
+        Request info
+      </a>
+      .
     </p>
-    <p>{site.regionLabel}</p>
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <p>
+        © {year}{' '}{site.name}
+        {
+          site.part107 && (
+            <span>
+              {' '}
+              ·{' '}
+              <a
+                href="https://www.faa.gov/uas/commercial_operators"
+                class="underline decoration-line underline-offset-2 transition hover:text-horizon"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                FAA Part 107 licensed
+              </a>
+            </span>
+          )
+        }
+      </p>
+      <p>{site.regionLabel}</p>
+    </div>
   </div>
 </footer>

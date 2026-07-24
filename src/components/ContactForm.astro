@@ -42,6 +42,24 @@ const configured = Boolean(formId);
       </label>
 
       <label class="block">
+        <span class="mb-1.5 block text-sm font-medium text-ink">
+          Phone <span class="font-normal text-ink-soft">(optional)</span>
+        </span>
+        <input
+          type="tel"
+          name="phone"
+          id="contact-phone"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="(214) 555-0100"
+          class="w-full border border-line bg-cloud px-3 py-2.5 outline-none transition focus:border-skyline"
+        />
+        <span id="contact-phone-hint" class="mt-1.5 block text-xs text-ink-soft">
+          Optional. US or international numbers; spaces, dashes, and parentheses are fine.
+        </span>
+      </label>
+
+      <label class="block">
         <span class="mb-1.5 block text-sm font-medium text-ink">Project type</span>
         <select
           name="project_type"
@@ -54,6 +72,7 @@ const configured = Boolean(formId);
           <option value="brand">Brand or events</option>
           <option value="real_estate">Real estate or land</option>
           <option value="construction">Construction progress</option>
+          <option value="photography">Photography / stills</option>
           <option value="website">Custom website or content site</option>
           <option value="other">Other</option>
         </select>
@@ -99,10 +118,41 @@ const configured = Boolean(formId);
       const form = document.getElementById('contact-form');
       const status = document.getElementById('contact-status');
       const submit = document.getElementById('contact-submit');
+      const phone = document.getElementById('contact-phone');
+
+      /** Empty OK; otherwise 10–15 digits, optional leading + / US 1, common separators allowed. */
+      function isLoosePhone(value) {
+        const trimmed = value.trim();
+        if (!trimmed) return true;
+        if (!/^\+?[\d\s().\-]+$/.test(trimmed)) return false;
+        const digits = trimmed.replace(/\D/g, '');
+        if (digits.length === 11 && digits.startsWith('1')) return true;
+        return digits.length >= 10 && digits.length <= 15;
+      }
+
+      function syncPhoneValidity() {
+        if (!(phone instanceof HTMLInputElement)) return;
+        phone.setCustomValidity(
+          isLoosePhone(phone.value) ? '' : 'Enter a phone number with at least 10 digits, or leave blank.',
+        );
+      }
 
       if (form instanceof HTMLFormElement && status && submit instanceof HTMLButtonElement) {
+        if (phone instanceof HTMLInputElement) {
+          phone.addEventListener('input', syncPhoneValidity);
+          phone.addEventListener('blur', syncPhoneValidity);
+        }
+
         form.addEventListener('submit', async (event) => {
           event.preventDefault();
+          syncPhoneValidity();
+
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            status.textContent = '';
+            return;
+          }
+
           status.textContent = 'Sending…';
           submit.disabled = true;
 
@@ -116,6 +166,7 @@ const configured = Boolean(formId);
 
             if (response.ok) {
               form.reset();
+              syncPhoneValidity();
               status.textContent = 'Thanks. Your request was sent. We will be in touch soon.';
             } else {
               status.textContent = 'Something went wrong. Please try again in a moment.';
