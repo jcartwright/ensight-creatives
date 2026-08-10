@@ -19,8 +19,8 @@ const slidesFromDisk = fs.existsSync(stillsDir)
   : [];
 
 export const hero = {
-  /** First still. Used as video poster when videoPath is set. */
-  posterPath: slidesFromDisk[0] ?? '/hero-poster.jpg',
+  /** Poster matched to the hero loop’s opening frame (not the stills set). */
+  posterPath: '/hero-poster.jpg',
   /** Silent MP4 loop; leave empty to use the stills cycle */
   videoPath: '/hero-loop.mp4',
   posterWidth: 1280,
