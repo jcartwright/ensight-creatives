@@ -71,6 +71,58 @@
     object-position: center;
   }
 
+  .hero-video {
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .hero-video.is-fallback-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .hero-controls.is-hidden,
+  .hero-playback.is-hidden,
+  .hero-playback-icon.is-hidden {
+    display: none;
+  }
+
+  .hero-playback {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    color: #f3f7f8;
+    background: rgb(18 26 24 / 0.4);
+    box-shadow: inset 0 0 0 1px rgb(243 247 248 / 0.28);
+    transition: background 160ms ease;
+  }
+
+  .hero-playback:hover {
+    background: rgb(18 26 24 / 0.58);
+  }
+
+  .hero-playback:focus-visible {
+    outline: 2px solid #d4a05a;
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-playback {
+      right: 1.5rem;
+      bottom: 1.5rem;
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
   .hero-slide {
     opacity: 0;
     transform: scale(1.04);

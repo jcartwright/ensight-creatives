@@ -22,7 +22,7 @@ export const hero = {
   /** First still. Used as video poster when videoPath is set. */
   posterPath: slidesFromDisk[0] ?? '/hero-poster.jpg',
   /** Silent MP4 loop; leave empty to use the stills cycle */
-  videoPath: '',
+  videoPath: '/hero-loop.mp4',
   posterWidth: 1280,
   posterHeight: 720,
   /** Seconds each still is fully visible before crossfade */

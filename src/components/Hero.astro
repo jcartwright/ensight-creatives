@@ -4,27 +4,20 @@ import { hero } from '../data/hero';
 
 const hasVideo = Boolean(hero.videoPath);
 const slides = [...hero.slides];
-const cycleStills = !hasVideo && slides.length > 1;
+const hasStills = slides.length > 0;
+const canCycleStills = slides.length > 1;
 ---
 
-<section class="relative min-h-[100svh] overflow-hidden hero-atmosphere text-cloud" data-hero-section>
+<section
+  class="relative min-h-screen min-h-[100svh] overflow-hidden hero-atmosphere text-cloud"
+  data-hero-section
+  data-has-video={hasVideo ? 'true' : 'false'}
+>
   {
-    hasVideo ? (
-      <video
-        class="hero-media"
-        autoplay
-        muted
-        loop
-        playsinline
-        poster={hero.posterPath}
-        aria-hidden="true"
-      >
-        <source src={hero.videoPath} type="video/mp4" />
-      </video>
-    ) : (
+    hasStills && (
       <div
         class="hero-slideshow"
-        data-hero-slideshow={cycleStills ? 'true' : 'false'}
+        data-hero-slideshow={canCycleStills ? 'true' : 'false'}
         data-hold={hero.slideHoldSeconds}
         aria-hidden="true"
       >
@@ -43,11 +36,31 @@ const cycleStills = !hasVideo && slides.length > 1;
       </div>
     )
   }
+
+  {
+    hasVideo && (
+      <video
+        class="hero-media hero-video"
+        data-hero-video
+        autoplay
+        muted
+        loop
+        playsinline
+        webkit-playsinline
+        preload="metadata"
+        poster={hero.posterPath}
+        aria-label="Background showreel. Click or use the playback control to pause or resume."
+      >
+        <source src={hero.videoPath} type="video/mp4" />
+      </video>
+    )
+  }
+
   <div class="hero-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   {
-    cycleStills && (
-      <div class="hero-controls">
+    canCycleStills && (
+      <div class="hero-controls is-hidden" data-hero-still-controls>
         <button type="button" class="hero-nav" data-hero-prev aria-label="Previous image">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
@@ -72,7 +85,32 @@ const cycleStills = !hasVideo && slides.length > 1;
     )
   }
 
-  <div class="hero-copy mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:px-8 md:pb-28">
+  {
+    hasVideo && (
+      <button
+        type="button"
+        class="hero-playback"
+        data-hero-playback
+        aria-label="Pause background video"
+      >
+        <span class="hero-playback-icon hero-playback-pause" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+            <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+          </svg>
+        </span>
+        <span class="hero-playback-icon hero-playback-play is-hidden" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5.5v13l11-6.5-11-6.5z"></path>
+          </svg>
+        </span>
+      </button>
+    )
+  }
+
+  <div
+    class="hero-copy mx-auto flex min-h-screen min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:px-8 md:pb-28"
+  >
     <p
       class="reveal font-display text-4xl font-bold tracking-[-0.02em] text-cloud uppercase md:text-6xl lg:text-7xl"
       aria-label={site.shortName}
@@ -111,54 +149,124 @@ const cycleStills = !hasVideo && slides.length > 1;
 <script>
   function initHeroMedia() {
     const section = document.querySelector('[data-hero-section]');
-    if (!(section instanceof HTMLElement)) return;
+    if (!(section instanceof HTMLElement) || section.dataset.heroBound === 'true') return;
+    section.dataset.heroBound = 'true';
 
-    const video = section.querySelector('video.hero-media');
-    if (video instanceof HTMLVideoElement) {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const video = section.querySelector('[data-hero-video]');
+    const slideshow = section.querySelector('[data-hero-slideshow]');
+    const stillControls = section.querySelector('[data-hero-still-controls]');
+    const playbackBtn = section.querySelector('[data-hero-playback]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /** @type {ReturnType<typeof setInterval> | undefined} */
+    let stillTimer;
+    let stillsActive = false;
+
+    function setPlaybackUi(paused) {
+      if (!(playbackBtn instanceof HTMLButtonElement)) return;
+      const pauseIcon = playbackBtn.querySelector('.hero-playback-pause');
+      const playIcon = playbackBtn.querySelector('.hero-playback-play');
+      pauseIcon?.classList.toggle('is-hidden', paused);
+      playIcon?.classList.toggle('is-hidden', !paused);
+      playbackBtn.setAttribute('aria-label', paused ? 'Resume background video' : 'Pause background video');
+    }
+
+    function toggleVideoPlayback() {
+      if (!(video instanceof HTMLVideoElement) || video.classList.contains('is-fallback-hidden')) return;
+      if (video.paused) {
+        void video.play().then(() => setPlaybackUi(false)).catch(() => activateStillsFallback());
+      } else {
         video.pause();
+        setPlaybackUi(true);
+      }
+    }
+
+    function startStills() {
+      if (!(slideshow instanceof HTMLElement) || stillsActive) return;
+      const slides = Array.from(slideshow.querySelectorAll('.hero-slide'));
+      if (slides.length < 2) {
+        stillsActive = true;
+        stillControls?.classList.add('is-hidden');
+        return;
+      }
+
+      stillsActive = true;
+      stillControls?.classList.remove('is-hidden');
+      const hold = Math.max(2, Number(slideshow.dataset.hold || 6)) * 1000;
+      let index = slides.findIndex((el) => el.classList.contains('is-active'));
+      if (index < 0) index = 0;
+
+      function show(next) {
+        slides[index]?.classList.remove('is-active');
+        index = (next + slides.length) % slides.length;
+        slides[index]?.classList.add('is-active');
+      }
+
+      function go(delta) {
+        show(index + delta);
+        restartAutoplay();
+      }
+
+      function restartAutoplay() {
+        if (reduceMotion) return;
+        if (stillTimer) clearInterval(stillTimer);
+        stillTimer = setInterval(() => show(index + 1), hold);
+      }
+
+      section.querySelector('[data-hero-prev]')?.addEventListener('click', () => go(-1));
+      section.querySelector('[data-hero-next]')?.addEventListener('click', () => go(1));
+      restartAutoplay();
+    }
+
+    function activateStillsFallback() {
+      if (video instanceof HTMLVideoElement) {
+        video.pause();
+        video.classList.add('is-fallback-hidden');
         video.removeAttribute('autoplay');
+      }
+      playbackBtn?.classList.add('is-hidden');
+      startStills();
+    }
+
+    if (video instanceof HTMLVideoElement) {
+      // Safari/iOS: attributes alone are not always enough before play().
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+
+      const canPlay =
+        video.canPlayType('video/mp4; codecs="avc1.42E01E"') ||
+        video.canPlayType('video/mp4');
+
+      if (reduceMotion || !canPlay) {
+        activateStillsFallback();
+      } else {
+        stillControls?.classList.add('is-hidden');
+        video.addEventListener('click', toggleVideoPlayback);
+        playbackBtn?.addEventListener('click', (event) => {
+          event.stopPropagation();
+          toggleVideoPlayback();
+        });
+        video.addEventListener('error', activateStillsFallback);
+        video.querySelector('source')?.addEventListener('error', activateStillsFallback);
+
+        const playAttempt = video.play();
+        if (playAttempt !== undefined) {
+          playAttempt.then(() => setPlaybackUi(false)).catch(() => activateStillsFallback());
+        } else {
+          setPlaybackUi(!video.paused);
+        }
+
+        video.addEventListener('play', () => setPlaybackUi(false));
+        video.addEventListener('pause', () => {
+          if (!video.classList.contains('is-fallback-hidden')) setPlaybackUi(true);
+        });
       }
       return;
     }
 
-    const root = section.querySelector('[data-hero-slideshow="true"]');
-    if (!(root instanceof HTMLElement) || root.dataset.bound === 'true') return;
-
-    const slides = Array.from(root.querySelectorAll('.hero-slide'));
-    if (slides.length < 2) return;
-
-    root.dataset.bound = 'true';
-    const hold = Math.max(2, Number(root.dataset.hold || 6)) * 1000;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let index = slides.findIndex((el) => el.classList.contains('is-active'));
-    if (index < 0) index = 0;
-    /** @type {ReturnType<typeof setInterval> | undefined} */
-    let timer;
-
-    function show(next: number) {
-      slides[index]?.classList.remove('is-active');
-      index = (next + slides.length) % slides.length;
-      slides[index]?.classList.add('is-active');
-    }
-
-    function go(delta: number) {
-      show(index + delta);
-      restartAutoplay();
-    }
-
-    function restartAutoplay() {
-      if (reduceMotion) return;
-      if (timer) clearInterval(timer);
-      timer = setInterval(() => show(index + 1), hold);
-    }
-
-    const prev = section.querySelector('[data-hero-prev]');
-    const next = section.querySelector('[data-hero-next]');
-    prev?.addEventListener('click', () => go(-1));
-    next?.addEventListener('click', () => go(1));
-
-    restartAutoplay();
+    // Stills-only mode (no video configured)
+    startStills();
   }
 
   initHeroMedia();
