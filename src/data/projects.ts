@@ -38,6 +38,23 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    title: 'Rancho de la Roca: Roundup 2026',
+    slug: 'rancho-roundup-2026',
+    youtubeId: 'xYkzSgi-0dE',
+    blurb: 'Charity car show coverage at Rancho Roundup: classic cars, crowd energy, and the ranch grounds.',
+    tags: ['Events', 'Charity', 'Car show'],
+    featured: true,
+  },
+  {
+    title: 'Toyota Tundra: Motion Cut',
+    slug: 'toyota-tundra-motion-cut',
+    youtubeId: 'Dv0yPbxbrBw',
+    blurb:
+      'A high-energy ground cut on a Toyota Tundra, shot as motion practice ahead of car-show coverage.',
+    tags: ['Automotive', 'Ground', 'Motion'],
+    featured: true,
+  },
+  {
     title: 'Babcock House Museum',
     slug: 'babcock-house-museum',
     youtubeId: 'yT6QeeBLuXE',
