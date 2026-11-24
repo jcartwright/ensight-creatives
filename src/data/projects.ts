@@ -6,6 +6,11 @@ export type Project = {
   blurb: string;
   tags: string[];
   featured?: boolean;
+  /**
+   * Open YouTube in a new tab instead of embedding.
+   * Use when Content ID / copyright blocks embeds.
+   */
+  linkOut?: boolean;
 };
 
 /**
@@ -69,6 +74,15 @@ export const projects: Project[] = [
     blurb: 'Vacant land for sale in Dublin, Texas. Terrain, access, and property lines for marketing.',
     tags: ['Land', 'Real estate', 'Dublin TX'],
     featured: true,
+  },
+  {
+    title: 'Eaglepointe Thanksgiving',
+    slug: 'eaglepointe-thanksgiving',
+    youtubeId: 'BJuu25Urm2E',
+    blurb: 'Community Thanksgiving outreach at Eaglepointe Church in Denton, Texas.',
+    tags: ['Events', 'Community Outreach', 'Denton TX'],
+    featured: true,
+    linkOut: true,
   },
   {
     title: 'Eaglepointe Church',

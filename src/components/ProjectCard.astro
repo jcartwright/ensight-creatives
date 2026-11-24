@@ -7,9 +7,14 @@ interface Props {
 
 const { project } = Astro.props;
 const hasVideo = Boolean(project.youtubeId);
+const linkOut = Boolean(project.linkOut && project.youtubeId);
+const youtubeUrl = project.youtubeId ? `https://youtu.be/${project.youtubeId}` : '';
 const thumb = hasVideo
   ? `https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`
   : '';
+
+const mediaClass =
+  'absolute inset-0 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flare';
 ---
 
 <article class="group">
@@ -17,13 +22,35 @@ const thumb = hasVideo
     class="relative aspect-video overflow-hidden bg-horizon-deep/90 ring-1 ring-line transition duration-500 group-hover:ring-skyline/40"
   >
     {
-      hasVideo ? (
-        <div class="project-player absolute inset-0" data-youtube-id={project.youtubeId} data-title={project.title}>
-          <button
-            type="button"
-            class="absolute inset-0 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flare"
-            aria-label={`Play ${project.title}`}
+      linkOut ? (
+        <a
+          href={youtubeUrl}
+          class={mediaClass}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Watch ${project.title} on YouTube`}
+        >
+          <img
+            src={thumb}
+            alt=""
+            class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            loading="lazy"
+            width="480"
+            height="360"
+          />
+          <span class="absolute inset-0 bg-ink/25 transition group-hover:bg-ink/15"></span>
+          <span
+            class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-cloud/95 text-horizon shadow-sm transition group-hover:scale-105"
+            aria-hidden="true"
           >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5.5v13l11-6.5-11-6.5z"></path>
+            </svg>
+          </span>
+        </a>
+      ) : hasVideo ? (
+        <div class="project-player absolute inset-0" data-youtube-id={project.youtubeId} data-title={project.title}>
+          <button type="button" class={mediaClass} aria-label={`Play ${project.title}`}>
             <img
               src={thumb}
               alt=""
